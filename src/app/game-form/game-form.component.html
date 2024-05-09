@@ -1,0 +1,57 @@
+<form [formGroup]="gameForm">
+  <fieldset>
+    <legend>Game data</legend>
+    <select name="name" formControlName="name" (change)="setGameData()">
+      <option value="">select game</option>
+      <option *ngFor="let game of gameList" [value]="game.name">
+        {{ game.name }}
+      </option>
+    </select>
+    <p
+      style="color: red"
+      *ngIf="
+        gameForm.controls.name.hasError('required') &&
+        gameForm.controls.name.dirty
+      "
+    >
+      must select a game
+    </p>
+
+    <select
+      name="gameType"
+      id="gameType"
+      *ngIf="gameForm.controls.name.value === 'Athletics'"
+      formControlName="subgame"
+      (change)="setAthleticsGame()"
+    >
+      <option value="">Select Athlete Game</option>
+      <option *ngFor="let game of athleticsGameList" [value]="game.name">
+        {{ game.name }}
+      </option>
+    </select>
+
+    <label for="type">type</label>
+    <input type="text" id="type" formControlName="type" readonly />
+
+    <label for="playerCount">player</label>
+    <input
+      type="number"
+      id="playerCount"
+      formControlName="playerCount"
+      readonly
+    />
+  </fieldset>
+  <form formArrayName="team" *ngIf="gameForm.controls.subgame.value">
+    <fieldset>
+      <legend>players</legend>
+      <div *ngFor="let group of gameForm.controls.team.controls">
+        <div [formGroup]="group">
+          <input type="text" placeholder="name of player" />
+          <input type="text" placeholder="Age of player" />
+          <input type="text" placeholder="Price of player" />
+        </div>
+      </div>
+      <button (click)="addPlayer()">add</button>
+    </fieldset>
+  </form>
+</form>
