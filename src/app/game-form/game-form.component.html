@@ -1,4 +1,4 @@
-<form [formGroup]="gameForm">
+<form [formGroup]="gameForm" (ngSubmit)="submitGame()">
   <fieldset>
     <legend>Game data</legend>
     <select name="name" formControlName="name" (change)="setGameData()">
@@ -20,7 +20,7 @@
     <select
       name="gameType"
       id="gameType"
-      *ngIf="gameForm.controls.name.value === 'Athletics'"
+      *ngIf=" gameForm.controls.name.value === 'Athletics'"
       formControlName="subgame"
       (change)="setAthleticsGame()"
     >
@@ -41,17 +41,124 @@
       readonly
     />
   </fieldset>
-  <form formArrayName="team" *ngIf="gameForm.controls.subgame.value">
-    <fieldset>
-      <legend>players</legend>
-      <div *ngFor="let group of gameForm.controls.team.controls">
+  <fieldset *ngIf="gameForm.controls.name.value !== ''">
+    <legend>teamA</legend>
+    <form formArrayName="teamA">
+      <div
+        *ngFor="
+          let group of gameForm.controls.teamA.controls;
+          let index = index
+        "
+      >
         <div [formGroup]="group">
-          <input type="text" placeholder="name of player" />
-          <input type="text" placeholder="Age of player" />
-          <input type="text" placeholder="Price of player" />
+          <input
+            type="text"
+            placeholder="name of player"
+            [value]="group.controls['name'].value"
+            readonly
+          />
+          <input
+            type="text"
+            placeholder="Age of player"
+            [value]="group.controls['age'].value"
+            readonly
+          />
+          <input
+            type="text"
+            placeholder="Price of player"
+            [value]="group.controls['price'].value"
+            readonly
+          />
+          <button
+            type="button"
+            [disabled]="
+              !gameForm.controls.teamA.controls[index].controls['name'].value
+            "
+            (click)="removePlayer(index, 'teamA')"
+          >
+            delete
+          </button>
         </div>
       </div>
-      <button (click)="addPlayer()">add</button>
-    </fieldset>
-  </form>
+    </form>
+    <select name="player" id="player" formControlName="player">
+      <option *ngFor="let player of PlayerNotSelected" [value]="player.name">
+        {{ player.name }}
+      </option>
+    </select>
+    <button
+      type="button"
+      [disabled]="!gameForm.controls.player.value"
+      (click)="addPlayer('teamA')"
+    >
+      add
+    </button>
+  </fieldset>
+  <fieldset
+    *ngIf="
+      gameForm.controls.name.value !== 'Athletics' &&
+      gameForm.controls.name.value !== ''
+    "
+  >
+    <legend>team B</legend>
+
+    <form formArrayName="teamB">
+      <div
+        *ngFor="
+          let group of gameForm.controls.teamB.controls;
+          let index = index
+        "
+      >
+        <div [formGroup]="group">
+          <input
+            type="text"
+            placeholder="name of player"
+            [value]="group.controls['name'].value"
+            readonly
+          />
+          <input
+            type="text"
+            placeholder="Age of player"
+            [value]="group.controls['age'].value"
+            readonly
+          />
+          <input
+            type="text"
+            placeholder="Price of player"
+            [value]="group.controls['price'].value"
+            readonly
+          />
+          <button
+            type="button"
+            [disabled]="
+              !gameForm.controls.teamA.controls[index].controls['name'].value
+            "
+            (click)="removePlayer(index, 'teamB')"
+          >
+            delete
+          </button>
+        </div>
+      </div>
+    </form>
+    <select name="player" id="player" formControlName="player">
+      <option *ngFor="let player of PlayerNotSelected" [value]="player.name">
+        {{ player.name }}
+      </option>
+    </select>
+    <button
+      type="button"
+      [disabled]="!gameForm.controls.player.value"
+      (click)="addPlayer('teamB')"
+    >
+      add
+    </button>
+
+  </fieldset>
+
+  <button
+    type="submit"
+    [disabled]="this.gameForm.controls.teamA.controls.length < 2"
+  >
+    submit
+  </button>
 </form>
