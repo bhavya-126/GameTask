@@ -20,9 +20,8 @@
     <select
       name="gameType"
       id="gameType"
-      *ngIf=" gameForm.controls.name.value === 'Athletics'"
+      *ngIf="gameForm.controls.name.value === 'Athletics'"
       formControlName="subgame"
-      (change)="setAthleticsGame()"
     >
       <option value="">Select Athlete Game</option>
       <option *ngFor="let game of athleticsGameList" [value]="game.name">
@@ -40,9 +39,12 @@
       formControlName="playerCount"
       readonly
     />
+    <p style="color: red;" *ngIf="gameForm.controls.subgame.hasError('required')">select a game</p>
   </fieldset>
   <fieldset *ngIf="gameForm.controls.name.value !== ''">
-    <legend>teamA</legend>
+    <legend *ngIf="gameForm.controls.type.value?.toLowerCase() === 'team'">
+      teamA
+    </legend>
     <form formArrayName="teamA">
       <div
         *ngFor="
@@ -81,18 +83,22 @@
         </div>
       </div>
     </form>
+
     <select name="player" id="player" formControlName="player">
-      <option *ngFor="let player of PlayerNotSelected" [value]="player.name">
+      <option *ngFor="let player of playerNotSelected" [value]="player.name">
         {{ player.name }}
       </option>
     </select>
     <button
       type="button"
-      [disabled]="!gameForm.controls.player.value"
+      [disabled]="!gameForm.controls.player.value "
       (click)="addPlayer('teamA')"
     >
       add
     </button>
+    <p style="color: red;" *ngIf="  gameForm.controls.teamA.hasError('minlength') || gameForm.controls.teamA.hasError('maxlength') ">
+      should have {{ gameForm.controls.playerCount.value }} players
+    </p>
   </fieldset>
   <fieldset
     *ngIf="
@@ -131,7 +137,7 @@
           <button
             type="button"
             [disabled]="
-              !gameForm.controls.teamA.controls[index].controls['name'].value
+              !gameForm.controls.teamB.controls[index].controls['name'].value
             "
             (click)="removePlayer(index, 'teamB')"
           >
@@ -141,7 +147,7 @@
       </div>
     </form>
     <select name="player" id="player" formControlName="player">
-      <option *ngFor="let player of PlayerNotSelected" [value]="player.name">
+      <option *ngFor="let player of playerNotSelected" [value]="player.name">
         {{ player.name }}
       </option>
     </select>
@@ -152,13 +158,14 @@
     >
       add
     </button>
+    <!-- <p style="color: red;" *ngIf="gameForm.controls.teamB.hasError('minlength')  ">
+      should have {{ gameForm.controls.playerCount.value }} players
+    </p> -->
 
+    <p style="color: red;" *ngIf="  gameForm.controls.teamB.hasError('minlength') || gameForm.controls.teamB.hasError('maxlength') ">
+      should have {{ gameForm.controls.playerCount.value }} players
+    </p>
   </fieldset>
 
-  <button
-    type="submit"
-    [disabled]="this.gameForm.controls.teamA.controls.length < 2"
-  >
-    submit
-  </button>
+  <button type="submit" [disabled]="!gameForm.valid">submit</button>
 </form>

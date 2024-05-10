@@ -9,6 +9,6 @@ export class GameService {
   game = [
     {name:'cricket', type:'team', playerCount:11},
     {name:'badminton', type:'team', playerCount:2},
-    {name:'Athletics', type:'solo', playerCount:1}
+    {name:'Athletics', type:'solo', playerCount:2}
   ]
 }

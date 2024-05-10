@@ -19,6 +19,16 @@ export class PlayerService {
     { name: 'player10', age: '25', price: '1472', selected: false },
     { name: 'player11', age: '26', price: '9578', selected: false },
     { name: 'player12', age: '30', price: '3645', selected: false },
+    { name: 'player13', age: '30', price: '3645', selected: false },
+    { name: 'player14', age: '30', price: '3645', selected: false },
+    { name: 'player15', age: '30', price: '3645', selected: false },
+    { name: 'player16', age: '30', price: '3645', selected: false },
+    { name: 'player17', age: '30', price: '3645', selected: false },
+    { name: 'player18', age: '30', price: '3645', selected: false },
+    { name: 'player19', age: '30', price: '3645', selected: false },
+    { name: 'player20', age: '30', price: '3645', selected: false },
+    { name: 'player21', age: '30', price: '3645', selected: false },
+    { name: 'player22', age: '30', price: '3645', selected: false },
   ];
   addPlayer(name: string, age: string, price: string) {
     this.playerList.push({ name, age, price, selected: false });
