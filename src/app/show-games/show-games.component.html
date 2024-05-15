@@ -1,0 +1,60 @@
+<div *ngFor="let game of games">
+    <h2>{{game.name}}</h2>
+    <p>type: {{game.type}}</p>
+    <p *ngIf="game.type==='team'">player in each team: {{game.playerCount}}</p>
+    <p *ngIf="game.type==='solo'">game: {{game.subgame}}</p>
+    <p *ngIf="game.type==='solo'">total player: {{game.teamA.length}}</p>
+    <p>players</p>
+    <p *ngIf="game.type==='team'"> Team A</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let player of game.teamA">
+                <td>{{player.name}}</td>
+                <td>{{player.age}}</td>
+                <td>{{player.price | currency: 'INR'}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <p *ngIf="game.type==='team'"> Team B</p>
+    <table *ngIf="game.type==='team'">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let player of game.teamB">
+                <td>{{player.name}}</td>
+                <td>{{player.age}}</td>
+                <td>{{player.price}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<!-- <table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Player</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let game of games">
+            <td>{{game.name}}</td>
+            <td>{{game.type}}</td>
+            <td>{{game.player}}</td>
+        </tr>
+    </tbody>
+</table> -->

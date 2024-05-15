@@ -68,7 +68,7 @@
           <input
             type="text"
             placeholder="Price of player"
-            [value]="group.controls['price'].value"
+            [value]="group.controls['price'].value | currency: 'INR'"
             readonly
           />
           <button
@@ -96,7 +96,7 @@
     >
       add
     </button>
-    <p style="color: red;" *ngIf="  gameForm.controls.teamA.hasError('minlength') || gameForm.controls.teamA.hasError('maxlength') ">
+    <p style="color: red;" *ngIf="  ( gameForm.controls.teamA.hasError('minlength') || gameForm.controls.teamA.hasError('maxlength') )">
       should have {{ gameForm.controls.playerCount.value }} players
     </p>
   </fieldset>
@@ -131,7 +131,7 @@
           <input
             type="text"
             placeholder="Price of player"
-            [value]="group.controls['price'].value"
+            [value]="group.controls['price'].value | currency: 'INR'"
             readonly
           />
           <button
@@ -167,5 +167,5 @@
     </p>
   </fieldset>
 
-  <button type="submit" [disabled]="!gameForm.valid">submit</button>
+  <button type="submit" [disabled]="! gameForm.valid">submit</button>
 </form>
